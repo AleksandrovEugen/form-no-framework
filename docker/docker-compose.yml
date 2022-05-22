@@ -1,0 +1,70 @@
+version: '3.7'
+
+services:
+  php:
+    build:
+      context: ./image/php
+      args:
+        - UID
+        - UPLOAD_MAX_FILESIZE
+        - POST_MAX_SIZE
+        - MEMORY_LIMIT
+        - PHP_IMAGE
+        - INSTALL_IMAGEMAGICK
+    env_file:
+      - .env
+    environment:
+      # dont use quotes (") on windows environment
+      PHP_IDE_CONFIG: serverName=${SERVER_NAME}
+      XDEBUG_CONFIG: client_host=${XDEBUG_CLIENT_HOST}
+    volumes:
+      - ../:/var/www
+    depends_on:
+      - db
+    hostname: php-box
+    networks:
+      - default
+
+  nginx:
+    build:
+      context: image/nginx
+      args:
+        - SERVER_NAME
+        - FPM_ADDR
+        - FPM_PORT
+        - NGINX_IMAGE
+    ports:
+      - "${NGINX_HTTP_PORT}:80"
+    volumes:
+      - ../public:/var/www/public
+    depends_on:
+      - php
+    hostname: nginx-box
+    networks:
+      default:
+        aliases:
+          - ${SERVER_NAME}
+
+  db:
+    image: ${MYSQL_IMAGE}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_TCP_PORT=${DB_PORT}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    volumes:
+      - database:/var/lib/mysql
+      - ./image/mysql/docker-entrypoint-initdb.d/createdb.sql:/docker-entrypoint-initdb.d/createdb.sql
+    hostname: mysql-box
+    networks:
+      - default
+
+volumes:
+  database:
+  esdata:
+
+networks:
+  default:

@@ -1,0 +1,13 @@
+CREATE DATABASE IF NOT EXISTS `formdb` COLLATE 'utf8mb4_unicode_ci' ;
+GRANT ALL ON `formdb`.* TO `form_user`@'%' WITH GRANT OPTION ;
+
+DROP TABLE IF EXISTS `forms`;
+CREATE TABLE `forms` (
+ `id` int NOT NULL AUTO_INCREMENT,
+ `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+ `phone` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+ `message` text COLLATE utf8mb4_general_ci,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+FLUSH PRIVILEGES ;

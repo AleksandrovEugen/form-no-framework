@@ -1,0 +1,29 @@
+{
+    "name": "aleksandroveugen/test-form",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "AleksandrovEugen\\TestForm\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Eugen Aleksandrov",
+            "email": "aleksandrov.eugen@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.4",
+        "filp/whoops": "^2.14",
+        "php-di/php-di": "^6.4",
+        "rakit/validation": "^1.4",
+        "league/route": "^5.1",
+        "laminas/laminas-diactoros": "^2.11",
+        "laminas/laminas-httphandlerrunner": "^2.1",
+        "league/container": "^4.2",
+        "atlas/query": "^2.0"
+    },
+    "require-dev": {
+        "larapack/dd": "^1.1"
+    }
+}
